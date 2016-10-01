@@ -1,0 +1,95 @@
+<!Doctype HTML>
+<html>
+  <head>
+    <title>Test site</title>
+
+    <style>
+      #fixed-pos-button {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        color: white;
+        width: 100px;
+        height: 60px;
+        background-color: red;
+        border-color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Hello, World</h2>
+    <p>Red hair crookshanks bludger Marauder’s Map Prongs sunshine daisies butter mellow Ludo Bagman. Beaters gobbledegook N.E.W.T., Honeydukes eriseD inferi Wormtail. Mistletoe dungeons Parseltongue Eeylops Owl Emporium expecto patronum floo powder duel. Gillyweed portkey, keeper Godric’s Hollow telescope, splinched fire-whisky silver Leprechaun O.W.L. stroke the spine. Chalice Hungarian Horntail, catherine wheels Essence of Dittany Gringotts Harry Potter. Prophecies Yaxley green eyes Remembrall horcrux hand of the servant. Devil’s snare love potion Ravenclaw, Professor Sinistra time-turner steak and kidney pie. Cabbage Daily Prophet letters from no one Dervish and Banges leg.</p>
+    <hr>
+    <p class="edge-cms" data-key-name="p1">Red hair crookshanks bludger Marauder’s Map Prongs sunshine daisies butter mellow Ludo Bagman. Beaters gobbledegook N.E.W.T., Honeydukes eriseD inferi Wormtail. Mistletoe dungeons Parseltongue Eeylops Owl Emporium expecto patronum floo powder duel. Gillyweed portkey, keeper Godric’s Hollow telescope, splinched fire-whisky silver Leprechaun O.W.L. stroke the spine. Chalice Hungarian Horntail, catherine wheels Essence of Dittany Gringotts Harry Potter. Prophecies Yaxley green eyes Remembrall horcrux hand of the servant. Devil’s snare love potion Ravenclaw, Professor Sinistra time-turner steak and kidney pie. Cabbage Daily Prophet letters from no one Dervish and Banges leg.</p>
+    <hr>
+    <p>Red hair crookshanks bludger Marauder’s Map Prongs sunshine daisies butter mellow Ludo Bagman. Beaters gobbledegook N.E.W.T., Honeydukes eriseD inferi Wormtail. Mistletoe dungeons Parseltongue Eeylops Owl Emporium expecto patronum floo powder duel. Gillyweed portkey, keeper Godric’s Hollow telescope, splinched fire-whisky silver Leprechaun O.W.L. stroke the spine. Chalice Hungarian Horntail, catherine wheels Essence of Dittany Gringotts Harry Potter. Prophecies Yaxley green eyes Remembrall horcrux hand of the servant. Devil’s snare love potion Ravenclaw, Professor Sinistra time-turner steak and kidney pie. Cabbage Daily Prophet letters from no one Dervish and Banges leg.</p>
+    <hr>
+    <p class="edge-cms" data-key-name="p2">Red hair crookshanks bludger Marauder’s Map Prongs sunshine daisies butter mellow Ludo Bagman. Beaters gobbledegook N.E.W.T., Honeydukes eriseD inferi Wormtail. Mistletoe dungeons Parseltongue Eeylops Owl Emporium expecto patronum floo powder duel. Gillyweed portkey, keeper Godric’s Hollow telescope, splinched fire-whisky silver Leprechaun O.W.L. stroke the spine. Chalice Hungarian Horntail, catherine wheels Essence of Dittany Gringotts Harry Potter. Prophecies Yaxley green eyes Remembrall horcrux hand of the servant. Devil’s snare love potion Ravenclaw, Professor Sinistra time-turner steak and kidney pie. Cabbage Daily Prophet letters from no one Dervish and Banges leg.</p>
+
+    <!--
+    <button id="fixed-pos-button">Save</button>
+    -->
+
+  <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBuWvVLmh4NGzfzsGBKIqmRsR9BtVJF1zE",
+      authDomain: "edge-cms.firebaseapp.com",
+      databaseURL: "https://edge-cms.firebaseio.com",
+      storageBucket: "edge-cms.appspot.com",
+      messagingSenderId: "1082973155115"
+    };
+    firebase.initializeApp(config);
+  </script>
+  <script>
+    var ref = firebase.database().ref().child("test-site");
+    var editableElements = document.getElementsByClassName("edge-cms");
+    console.log(editableElements);
+    ref.on('value', function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        for (i=0; i < editableElements.length; i++) {
+          if (editableElements[i].getAttribute("data-key-name") === childSnapshot.key) {
+            editableElements[i].innerHTML = childSnapshot.val();
+          }
+        }
+      });
+    });
+
+    function makeEditable() {
+      var editableElements = document.getElementsByClassName("edge-cms");
+      for (i=0; i < editableElements.length; i++) {
+        editableElements[i].setAttribute("contenteditable", "true");
+      }
+    }
+
+    function addSaveButton() {
+      var button = document.createElement("button");
+      button.setAttribute("id", "fixed-pos-button");
+      button.innerHTML = "Save";
+      button.addEventListener("click", saveClicked);
+      document.body.appendChild(button);
+    }
+
+    function saveClicked() {
+      var editableElements = document.getElementsByClassName("edge-cms");
+      for (i=0; i < editableElements.length; i++) {
+        var keyName = editableElements[i].getAttribute("data-key-name");
+        var dict = {};
+        dict[keyName] = editableElements[i].innerHTML;
+        ref.update(dict);
+      }
+    }
+
+    function addLoginButton() {
+      var loginBtn = document.createElement("button");
+      loginBtn.innerHTML = "Log in";
+      document.body.appendChild(loginBtn);
+    }
+
+    addLoginButton();
+    makeEditable();
+    addSaveButton();
+  </script>
+  </body>
+</html>
