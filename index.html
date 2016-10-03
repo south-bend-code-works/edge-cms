@@ -1,95 +1,73 @@
-<!Doctype HTML>
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <title>Test site</title>
+<head>
+  <title>South Bend Code School Hour of Code</title>
+  <link rel="stylesheet" href="https://s3.amazonaws.com/hourofcodeassets/style.css">
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="https://s3.amazonaws.com/hourofcodeassets/main.js"></script>
+  <link rel="stylesheet" href="main.css">
+</head>
 
-    <style>
-      #fixed-pos-button {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        color: white;
-        width: 100px;
-        height: 60px;
-        background-color: red;
-        border-color: white;
-      }
-    </style>
-  </head>
-  <body>
-    <h2>Hello, World</h2>
-    <p>Red hair crookshanks bludger Marauder’s Map Prongs sunshine daisies butter mellow Ludo Bagman. Beaters gobbledegook N.E.W.T., Honeydukes eriseD inferi Wormtail. Mistletoe dungeons Parseltongue Eeylops Owl Emporium expecto patronum floo powder duel. Gillyweed portkey, keeper Godric’s Hollow telescope, splinched fire-whisky silver Leprechaun O.W.L. stroke the spine. Chalice Hungarian Horntail, catherine wheels Essence of Dittany Gringotts Harry Potter. Prophecies Yaxley green eyes Remembrall horcrux hand of the servant. Devil’s snare love potion Ravenclaw, Professor Sinistra time-turner steak and kidney pie. Cabbage Daily Prophet letters from no one Dervish and Banges leg.</p>
-    <hr>
-    <p class="edge-cms" data-key-name="p1">Red hair crookshanks bludger Marauder’s Map Prongs sunshine daisies butter mellow Ludo Bagman. Beaters gobbledegook N.E.W.T., Honeydukes eriseD inferi Wormtail. Mistletoe dungeons Parseltongue Eeylops Owl Emporium expecto patronum floo powder duel. Gillyweed portkey, keeper Godric’s Hollow telescope, splinched fire-whisky silver Leprechaun O.W.L. stroke the spine. Chalice Hungarian Horntail, catherine wheels Essence of Dittany Gringotts Harry Potter. Prophecies Yaxley green eyes Remembrall horcrux hand of the servant. Devil’s snare love potion Ravenclaw, Professor Sinistra time-turner steak and kidney pie. Cabbage Daily Prophet letters from no one Dervish and Banges leg.</p>
-    <hr>
-    <p>Red hair crookshanks bludger Marauder’s Map Prongs sunshine daisies butter mellow Ludo Bagman. Beaters gobbledegook N.E.W.T., Honeydukes eriseD inferi Wormtail. Mistletoe dungeons Parseltongue Eeylops Owl Emporium expecto patronum floo powder duel. Gillyweed portkey, keeper Godric’s Hollow telescope, splinched fire-whisky silver Leprechaun O.W.L. stroke the spine. Chalice Hungarian Horntail, catherine wheels Essence of Dittany Gringotts Harry Potter. Prophecies Yaxley green eyes Remembrall horcrux hand of the servant. Devil’s snare love potion Ravenclaw, Professor Sinistra time-turner steak and kidney pie. Cabbage Daily Prophet letters from no one Dervish and Banges leg.</p>
-    <hr>
-    <p class="edge-cms" data-key-name="p2">Red hair crookshanks bludger Marauder’s Map Prongs sunshine daisies butter mellow Ludo Bagman. Beaters gobbledegook N.E.W.T., Honeydukes eriseD inferi Wormtail. Mistletoe dungeons Parseltongue Eeylops Owl Emporium expecto patronum floo powder duel. Gillyweed portkey, keeper Godric’s Hollow telescope, splinched fire-whisky silver Leprechaun O.W.L. stroke the spine. Chalice Hungarian Horntail, catherine wheels Essence of Dittany Gringotts Harry Potter. Prophecies Yaxley green eyes Remembrall horcrux hand of the servant. Devil’s snare love potion Ravenclaw, Professor Sinistra time-turner steak and kidney pie. Cabbage Daily Prophet letters from no one Dervish and Banges leg.</p>
+<body>
+<center>
 
-    <!--
-    <button id="fixed-pos-button">Save</button>
-    -->
+<div id="nameDiv" style="background-image:url('https://s3-us-west-2.amazonaws.com/southbendcodeschool.com/images/connoratkeys.JPG');">
+  <h1 style="color: white; font-family: Futura;" class="edge-cms" data-key-name="name">  Your name here  </h1>
+</div>
 
-  <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyBuWvVLmh4NGzfzsGBKIqmRsR9BtVJF1zE",
-      authDomain: "edge-cms.firebaseapp.com",
-      databaseURL: "https://edge-cms.firebaseio.com",
-      storageBucket: "edge-cms.appspot.com",
-      messagingSenderId: "1082973155115"
-    };
-    firebase.initializeApp(config);
-  </script>
-  <script>
-    var ref = firebase.database().ref().child("test-site");
-    var editableElements = document.getElementsByClassName("edge-cms");
-    console.log(editableElements);
-    ref.on('value', function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        for (i=0; i < editableElements.length; i++) {
-          if (editableElements[i].getAttribute("data-key-name") === childSnapshot.key) {
-            editableElements[i].innerHTML = childSnapshot.val();
-          }
-        }
-      });
-    });
+<div id="aboutMeDiv" style="font-family: sans-serif; background-color: #EE3C42; color: white;">
+  <h2> About Me </h2>
+  <p class="edge-cms" data-key-name="about-me"> I am from South Bend, Indiana. About me section.
+    I am from South Bend, Indiana. About me section.
+    I am from South Bend, Indiana. About me section.</p>
+</div>
 
-    function makeEditable() {
-      var editableElements = document.getElementsByClassName("edge-cms");
-      for (i=0; i < editableElements.length; i++) {
-        editableElements[i].setAttribute("contenteditable", "true");
-      }
-    }
+<h2 id="visitHeader" style="font-family: sans-serif; color: #60C8CA; "> A place I'd like to visit </h2>
+<div id="visitDiv" style="background-color: white;">
 
-    function addSaveButton() {
-      var button = document.createElement("button");
-      button.setAttribute("id", "fixed-pos-button");
-      button.innerHTML = "Save";
-      button.addEventListener("click", saveClicked);
-      document.body.appendChild(button);
-    }
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95363.91786127174!2d-86.34592461957277!3d41.67469918923144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x881132c44a61d313%3A0x974ad9b36fa33204!2sSouth+Bend%2C+IN!5e0!3m2!1sen!2sus!4v1467734540032" width="50%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+</div>
 
-    function saveClicked() {
-      var editableElements = document.getElementsByClassName("edge-cms");
-      for (i=0; i < editableElements.length; i++) {
-        var keyName = editableElements[i].getAttribute("data-key-name");
-        var dict = {};
-        dict[keyName] = editableElements[i].innerHTML;
-        ref.update(dict);
-      }
-    }
+<div id="techDiv" style="font-family: sans-serif; background-color: #4D73FF; color: white;" >
+  <h2> What tech means to me </h2>
+  <p> Technology means the world to me. It is an integral part of my daily life. </p>
+</div>
 
-    function addLoginButton() {
-      var loginBtn = document.createElement("button");
-      loginBtn.innerHTML = "Log in";
-      document.body.appendChild(loginBtn);
-    }
+<div id="videoDiv" style="font-family: sans-serif; background-color: black; color: white;">
+  <h2 > A video of something that I love </h2>
+  <iframe width="100%" height="480" src="https://www.youtube.com/embed/eOrNdBpGMv8" frameborder="0" allowfullscreen></iframe>
+</div>
 
-    addLoginButton();
-    makeEditable();
-    addSaveButton();
-  </script>
-  </body>
+<div id="faveSiteDiv" style="font-family: sans-serif; background-color: #F2C139; color:white;">
+  <h2> Links to my favorite sites </h2>
+  <a href="http://southbendcodeschool.com/"> South Bend Code School </a>
+  <a href="https://www.facebook.com/"> Facebook </a>
+  <a href="https://github.com/"> Github </a>
+</div>
+
+<div id="colorChangeDiv" style="font-family: sans-serif; background-color: black; color: white;">
+  <h2> Change the header colors on my page! </h2>
+  <button> red </button>
+  <button> blue </button>
+  <button> green </button>
+  <button> purple </button>
+
+</div>
+
+</center>
+
+
+<footer>
+
+  <div id="footerDiv">
+    <a href="http://southbendcodeschool.com/" ><h3>south bend<span> CODE SCHOOL</span></h3>
+
+    <p><em >Copyright &copy; 2016 South Bend Code School LLC, All rights reserved.</em></p>
+  </div>
+
+</footer>
+
+  <script src="./main.js"></script>
+</body>
+
 </html>
