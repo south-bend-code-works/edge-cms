@@ -27,10 +27,10 @@ def confirm_owner(request):
 		send_mail(
 			"Please Confirm Email Address",
 			'''Hello {},
-				Thank you for using edge-cms on your domain: {}'''.format(owner, domain),
+			Thank you for using edge-cms on your domain: {}'''.format(owner, domain),
 			"DoNotReply@edge-cms.com",
 			[email],
-			fail_silently=True)
+			fail_silently=False)
 	except smtplib.SMTPException:
 		return JsonResponse({"status": "Failure", "message": "Email not sent"})
 
