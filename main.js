@@ -139,8 +139,10 @@ function createLoginForm() {
 
   emailInput.setAttribute("type", "email");
   emailInput.setAttribute("name", "email");
+  emailInput.setAttribute("class", "edge-input");
   passwordInput.setAttribute("type", "password");
   passwordInput.setAttribute("name", "password");
+  passwordInput.setAttribute("class", "edge-input");
   submitBtn.setAttribute("type", "submit");
   emailLabel.setAttribute("for", "email");
   passwordLabel.setAttribute("for", "password");
