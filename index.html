@@ -13,8 +13,8 @@
 <body>
 <center>
 
-<div id="nameDiv" style="background-image:url('https://s3-us-west-2.amazonaws.com/southbendcodeschool.com/images/connoratkeys.JPG');">
-  <h1 style="color: white; font-family: Futura;" class="edge-cms" data-key-name="name">  Your name here  </h1>
+<div id="nameDiv" style="background-color: blue">
+  <h1 style="color: white; font-family: Futura;" class="edge-cms" data-key-name="name"></h1>
 </div>
 
 <div id="aboutMeDiv" style="font-family: sans-serif; background-color: #EE3C42; color: white;">
@@ -71,9 +71,7 @@
 
   <script src="./edge-cms.js"></script>
   <script>
-    $(document).ready(function() {
-      edgeCMS.begin();
-    });
+    $(document).ready(edgeCMS.begin);
   </script>
 </body>
 

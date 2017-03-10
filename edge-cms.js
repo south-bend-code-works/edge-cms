@@ -1,23 +1,6 @@
 var edgeCMS = (function() {
   var edgeCMS = {};
 
-  function loadScript(url, callback)
-  {
-      // Adding the script tag to the head as suggested before
-      var head = document.getElementsByTagName('head')[0];
-      var script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = url;
-  
-      // Then bind the event to the callback function.
-      // There are several events for cross browser compatibility.
-      script.onreadystatechange = callback;
-      script.onload = callback;
-  
-      // Fire the loading
-      head.appendChild(script);
-  }
-  
   function prepareFirebase() {
     var config = {
       apiKey: "AIzaSyBuWvVLmh4NGzfzsGBKIqmRsR9BtVJF1zE",
@@ -99,6 +82,7 @@ var edgeCMS = (function() {
       return;
     }
     loginBtn = document.createElement("button");
+    loginBtn.id = "edgeCmsLoginBtn";
     loginBtn.innerHTML = "Log in";
     loginBtn.addEventListener("click", loginClicked);
     document.body.appendChild(loginBtn);
@@ -129,8 +113,8 @@ var edgeCMS = (function() {
   
   function firebaseReady() {
     prepareFirebase();
-    watchAuthState();
     watchForUpdates();
+    watchAuthState();
     addLoginButton();
   }
   
@@ -222,7 +206,12 @@ var edgeCMS = (function() {
   
   //window.onload = function () {
   edgeCMS.begin= function () {
-    loadScript("https://www.gstatic.com/firebasejs/3.4.1/firebase.js", firebaseReady);
+    $.getScript("https://www.gstatic.com/firebasejs/3.4.1/firebase.js")
+      .done(firebaseReady)
+      .fail(console.log.bind(console));
+    /*
+    firebaseReady();
+    */
   }
 
   return edgeCMS;
