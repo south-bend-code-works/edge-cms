@@ -11,7 +11,7 @@ var edgeCMS = (function() {
     };
     firebase.initializeApp(config);
   }
-  
+
   function watchForUpdates() {
     var domain = document.domain.replace(/\./g, "~");
     if (domain != "") {
@@ -32,25 +32,27 @@ var edgeCMS = (function() {
     document.body.style.opacity = 1;
   }
 
+  // two functions for allowing/disallowing editing of edge-cms classes
   function makeNotEditable() {
     var editableElements = document.getElementsByClassName("edge-cms");
     for (i=0; i < editableElements.length; i++) {
       editableElements[i].setAttribute("contenteditable", "false");
     }
   }
-  
-  function removeSaveButton() {
-    var button = document.getElementById("fixed-pos-button");
-    button.style.display = "none";
-  }
-  
+
   function makeEditable() {
     var editableElements = document.getElementsByClassName("edge-cms");
     for (i=0; i < editableElements.length; i++) {
       editableElements[i].setAttribute("contenteditable", "true");
     }
   }
-  
+
+  // add/remove save button
+  function removeSaveButton() {
+    var button = document.getElementById("fixed-pos-button");
+    button.style.display = "none";
+  }
+
   var saveButton;
   function addSaveButton() {
     if (saveButton != undefined) {
@@ -62,7 +64,27 @@ var edgeCMS = (function() {
     saveButton.addEventListener("click", saveClicked);
     document.body.appendChild(saveButton);
   }
-  
+
+  // add/remove edit button
+  function removeEditButton() {
+    var button = document.getElementById("fixed-pos-edit-button");
+    button.style.display="none";
+  }
+
+  var editButton
+  function addEditButton(){
+    if (editButton != undefined){
+      editButton.style.display="fixed";
+    }
+    editButton = document.createElement("button");
+    editButton.setAttribute("id", "fixed-pos-edit-button");
+    editButton.innerHTML = "Edit";
+    editButton.addEventListener("click", editClicked);
+    document.body.appendChild(editButton);
+  }
+
+  // saving info to firebase when click 'save' button,
+  // make uneditable, hide save button and display edit button
   function saveClicked() {
     var domain = document.domain.replace(/\./g, "~");
     var ref = firebase.database().ref().child(domain);
@@ -73,9 +95,19 @@ var edgeCMS = (function() {
       dict[keyName] = editableElements[i].innerHTML;
       ref.update(dict);
     }
-    firebase.auth().signOut();
+    makeNotEditable();
+    removeSaveButton();
+    addEditButton();
   }
-  
+
+  // makes edge-cms fields editable again and brings back the save button
+  function editClicked() {
+    makeEditable();
+    removeEditButton();
+    addSaveButton();
+  }
+
+  //login button
   var loginBtn;
   function addLoginButton() {
     if (loginBtn != undefined) {
@@ -87,13 +119,32 @@ var edgeCMS = (function() {
     loginBtn.addEventListener("click", loginClicked);
     document.body.appendChild(loginBtn);
   }
-  
+
   function loginClicked() {
     var loginModal = createLoginModal();
     document.body.appendChild(loginModal);
     loginModal.style.display = "block";
   }
-  
+
+  //logout button
+  var logoutBtn;
+  function addLogoutButton() {
+    if (logoutBtn != undefined) {
+      return;
+    }
+    logoutBtn = document.createElement("button");
+    logoutBtn.id = "edgeCmsLogoutBtn";
+    logoutBtn.innerHTML = "Log out";
+    logoutBtn.addEventListener("click", logoutClicked);
+    document.body.appendChild(logoutBtn);
+  }
+
+  function logoutClicked() {
+    var loginModal = createLogoutModal();
+    document.body.appendChild(logoutModal);
+    logoutModal.style.display = "block";
+  }
+
   function watchAuthState() {
     firebase.auth().onAuthStateChanged(function(user) {
       console.log("Auth state changed");
@@ -110,14 +161,14 @@ var edgeCMS = (function() {
       }
     });
   }
-  
+
   function firebaseReady() {
     prepareFirebase();
     watchForUpdates();
     watchAuthState();
     addLoginButton();
   }
-  
+
   var loginForm;
   function createLoginForm() {
     if (loginForm != undefined) {
@@ -129,7 +180,7 @@ var edgeCMS = (function() {
     var passwordLabel = document.createElement("label");
     var passwordInput = document.createElement("input");
     var submitBtn = document.createElement("button");
-  
+
     emailInput.setAttribute("type", "email");
     emailInput.setAttribute("name", "email");
     emailInput.setAttribute("class", "edge-input");
@@ -139,17 +190,17 @@ var edgeCMS = (function() {
     submitBtn.setAttribute("type", "submit");
     emailLabel.setAttribute("for", "email");
     passwordLabel.setAttribute("for", "password");
-  
+
     emailLabel.innerHTML = "Email Address:";
     passwordLabel.innerHTML = "Password:";
     submitBtn.innerHTML = "Submit";
-  
+
     loginForm.appendChild(emailLabel);
     loginForm.appendChild(emailInput);
     loginForm.appendChild(passwordLabel);
     loginForm.appendChild(passwordInput);
     loginForm.appendChild(submitBtn);
-  
+
     loginForm.onsubmit = function() {
       var email = emailInput.value;
       var password = passwordInput.value;
@@ -160,13 +211,14 @@ var edgeCMS = (function() {
         var errorMessage = error.message;
         console.log(errorMessage);
       });
-  
+
       return false;
     };
-  
+
     return loginForm;
   }
-  
+
+  // creating the login modal
   var modalDiv;
   function createLoginModal() {
     if (modalDiv != undefined) {
@@ -177,33 +229,65 @@ var edgeCMS = (function() {
     var closeButton = document.createElement("span");
     var modalHeader = document.createElement("h3");
     var loginForm = createLoginForm();
-    
+
     modalDiv.setAttribute("class", "modal");
     contentDiv.setAttribute("class", "modal-content");
-  
+
     loginForm.style.marginTop = "20px";
-  
+
     closeButton.innerHTML = "x";
     modalHeader.innerHTML = "Enter your login information";
-  
+
     closeButton.addEventListener("click", function() {
       modalDiv.style.display = "none";
     });
-  
+
     window.onclick = function(event) {
       if (event.target == modalDiv) {
         modalDiv.style.display = "none";
       }
     }
-  
+
     contentDiv.appendChild(closeButton);
     contentDiv.appendChild(modalHeader);
     contentDiv.appendChild(loginForm);
     modalDiv.appendChild(contentDiv);
-  
+
     return modalDiv;
   }
-  
+
+  // create logout modal, just to confirm logging out
+  var modalDivClose;
+  function createLogoutModal() {
+    if (modalDivClose != undefined) {
+      return modalDivClose;
+    }
+    modalDivClose = document.createElement("div");
+    var contentDivClose = document.createElement("div");
+    var closeButtonClose = document.createElement("span");
+    var modalHeaderClose = document.createElement("h3");
+    var confirmCloseBtn = document.createElement("button");
+
+    modalDivClose.setAttribute("class", "modal");
+    contentDivClose.setAttribute("class", "modal-content");
+
+    closeButton.innerHTML = "x";
+    modalHeaderClose.innerHTML = "Are you sure you want to log out?";
+    confirmCloseBtn.addEventListener("click", function() {
+      firebase.auth().signOut();
+    });
+
+    closeButton.addEventListener("click", function() {
+      modalDivClose.style.display = "none";
+    });
+
+    window.onclick = function(event) {
+      if (event.target == modalDivClose) {
+        modalDivClose.style.display = "none";
+      }
+    }
+  }
+
   //window.onload = function () {
   edgeCMS.begin= function () {
     $.getScript("https://www.gstatic.com/firebasejs/3.4.1/firebase.js")
