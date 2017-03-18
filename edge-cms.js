@@ -167,6 +167,7 @@ var edgeCMS = (function() {
     watchForUpdates();
     watchAuthState();
     addLoginButton();
+    addLogoutButton();
   }
 
   var loginForm;

@@ -9,10 +9,18 @@
   border-color: white;
 }
 
+#fixed-pos-edit-button{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 75px;
+  height: 40px;
+}
+
 body {
   opacity: 0;
   -webkit-transition: opacity 0.5s;
-  -moz-transition: opacity 0.5s;     
+  -moz-transition: opacity 0.5s;
   transition: opacity 0.5s;
 }
 
