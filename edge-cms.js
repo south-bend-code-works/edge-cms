@@ -58,11 +58,13 @@ var edgeCMS = (function() {
     if (saveButton != undefined) {
       saveButton.style.display = "fixed";
     }
-    saveButton = document.createElement("button");
-    saveButton.setAttribute("id", "fixed-pos-button");
-    saveButton.innerHTML = "Save";
-    saveButton.addEventListener("click", saveClicked);
-    document.body.appendChild(saveButton);
+    else {
+      saveButton = document.createElement("button");
+      saveButton.setAttribute("id", "fixed-pos-button");
+      saveButton.innerHTML = "Save";
+      saveButton.addEventListener("click", saveClicked);
+      document.body.appendChild(saveButton);
+    }
   }
 
   // add/remove edit button
@@ -76,11 +78,13 @@ var edgeCMS = (function() {
     if (editButton != undefined){
       editButton.style.display="fixed";
     }
-    editButton = document.createElement("button");
-    editButton.setAttribute("id", "fixed-pos-edit-button");
-    editButton.innerHTML = "Edit";
-    editButton.addEventListener("click", editClicked);
-    document.body.appendChild(editButton);
+    else {
+      editButton = document.createElement("button");
+      editButton.setAttribute("id", "fixed-pos-edit-button");
+      editButton.innerHTML = "Edit";
+      editButton.addEventListener("click", editClicked);
+      document.body.appendChild(editButton);
+    }
   }
 
   // saving info to firebase when click 'save' button,
@@ -140,7 +144,7 @@ var edgeCMS = (function() {
   }
 
   function logoutClicked() {
-    var loginModal = createLogoutModal();
+    var logoutModal = createLogoutModal();
     document.body.appendChild(logoutModal);
     logoutModal.style.display = "block";
   }
