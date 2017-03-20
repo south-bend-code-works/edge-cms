@@ -56,7 +56,7 @@ var edgeCMS = (function() {
   var saveButton;
   function addSaveButton() {
     if (saveButton != undefined) {
-      saveButton.style.display = "fixed";
+      saveButton.style.display = "block";
     }
     else {
       saveButton = document.createElement("button");
@@ -76,7 +76,7 @@ var edgeCMS = (function() {
   var editButton
   function addEditButton(){
     if (editButton != undefined){
-      editButton.style.display="fixed";
+      editButton.style.display="block";
     }
     else {
       editButton = document.createElement("button");
