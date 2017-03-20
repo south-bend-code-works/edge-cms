@@ -144,9 +144,13 @@ var edgeCMS = (function() {
   }
 
   function logoutClicked() {
-    var logoutModal = createLogoutModal();
-    document.body.appendChild(logoutModal);
-    logoutModal.style.display = "block";
+    // signs out without any 'are you sure' message
+    // this should only be temporary
+    firebase.auth().signOut();
+    // taking the confirmation window out for now
+    // var logoutModal = createLogoutModal();
+    // document.body.appendChild(logoutModal);
+    // logoutModal.style.display = "block";
   }
 
   function watchAuthState() {
@@ -262,36 +266,41 @@ var edgeCMS = (function() {
   }
 
   // create logout modal, just to confirm logging out
-  var modalDivClose;
-  function createLogoutModal() {
-    if (modalDivClose != undefined) {
-      return modalDivClose;
-    }
-    modalDivClose = document.createElement("div");
-    var contentDivClose = document.createElement("div");
-    var closeButtonClose = document.createElement("span");
-    var modalHeaderClose = document.createElement("h3");
-    var confirmCloseBtn = document.createElement("button");
-
-    modalDivClose.setAttribute("class", "modal");
-    contentDivClose.setAttribute("class", "modal-content");
-
-    closeButton.innerHTML = "x";
-    modalHeaderClose.innerHTML = "Are you sure you want to log out?";
-    confirmCloseBtn.addEventListener("click", function() {
-      firebase.auth().signOut();
-    });
-
-    closeButton.addEventListener("click", function() {
-      modalDivClose.style.display = "none";
-    });
-
-    window.onclick = function(event) {
-      if (event.target == modalDivClose) {
-        modalDivClose.style.display = "none";
-      }
-    }
-  }
+  //**************taking out for now
+  // var modalDivClose;
+  // function createLogoutModal() {
+  //   if (modalDivClose != undefined) {
+  //     return modalDivClose;
+  //   }
+  //   else{
+  //     modalDivClose = document.createElement("div");
+  //     var contentDivClose = document.createElement("div");
+  //     var closeButtonClose = document.createElement("span");
+  //     var modalHeaderClose = document.createElement("h3");
+  //     var confirmCloseBtn = document.createElement("button");
+  //
+  //     modalDivClose.setAttribute("class", "modal");
+  //     contentDivClose.setAttribute("class", "modal-content");
+  //
+  //     closeButtonClose.innerHTML = "x";
+  //     modalHeaderClose.innerHTML = "Are you sure you want to log out?";
+  //     confirmCloseBtn.addEventListener("click", function() {
+  //       firebase.auth().signOut();
+  //     });
+  //
+  //     closeButtonClose.addEventListener("click", function() {
+  //       modalDivClose.style.display = "none";
+  //     });
+  //
+  //     window.onclick = function(event) {
+  //       if (event.target == modalDivClose) {
+  //         modalDivClose.style.display = "none";
+  //       }
+  //     }
+  //
+  //     return modalDivClose;
+  //   }
+  // }
 
   //window.onload = function () {
   edgeCMS.begin= function () {
