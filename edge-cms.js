@@ -20,8 +20,16 @@ var edgeCMS = (function() {
       ref.once('value').then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
           for (i=0; i < editableElements.length; i++) {
+            // check if data key is on this page
             if (editableElements[i].getAttribute("data-key-name") === childSnapshot.key) {
-              editableElements[i].innerHTML = childSnapshot.val();
+              // fill display text with stored data
+              editableElements[i].innerHTML = childSnapshot.text();
+              // assign link value to variable, even if there is none
+              var link = childSnapshot.link;
+              // check if there is a link and assign it to the element href if so
+              if (link !== ""){
+                editableElements[i].attr("href", link);
+              }
             }
           }
         });
@@ -96,7 +104,21 @@ var edgeCMS = (function() {
     for (i=0; i < editableElements.length; i++) {
       var keyName = editableElements[i].getAttribute("data-key-name");
       var dict = {};
-      dict[keyName] = editableElements[i].innerHTML;
+      var thisElement = {};
+
+      // check if the element has a link and record it if necessary
+      if (typeof $(editableElements[i]).attr('href') !== "undefined"){
+        thisElement = {
+          text : editableElements[i].innerHTML;
+          link : $(editableElements[i].attr('href');
+        };
+      }
+      else{
+        thisElement = {
+          text : editableElements[i].innerHTML;
+        };
+      }
+      dict[keyName] = thisElement;
       ref.update(dict);
     }
     makeNotEditable();
