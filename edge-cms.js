@@ -109,13 +109,13 @@ var edgeCMS = (function() {
       // check if the element has a link and record it if necessary
       if (typeof $(editableElements[i]).attr('href') !== "undefined"){
         thisElement = {
-          text : editableElements[i].innerHTML;
-          link : $(editableElements[i].attr('href');
+          text : editableElements[i].innerHTML,
+          link : $(editableElements[i]).attr('href')
         };
       }
       else{
         thisElement = {
-          text : editableElements[i].innerHTML;
+          text : editableElements[i].innerHTML
         };
       }
       dict[keyName] = thisElement;
