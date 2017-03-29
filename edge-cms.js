@@ -23,12 +23,12 @@ var edgeCMS = (function() {
             // check if data key is on this page
             if (editableElements[i].getAttribute("data-key-name") === childSnapshot.key) {
               // fill display text with stored data
-              editableElements[i].innerHTML = childSnapshot.text();
+              editableElements[i].innerHTML = childSnapshot.text;
               // assign link value to variable, even if there is none
               var link = childSnapshot.link;
               // check if there is a link and assign it to the element href if so
               if (link !== ""){
-                editableElements[i].attr("href", link);
+                editableElements[i].setAttribute("href", link);
               }
             }
           }
