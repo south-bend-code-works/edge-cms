@@ -39,22 +39,6 @@ var edgeCMS = (function() {
           }
         }
       });
-
-        // snapshot.forEach(function(childSnapshot) {
-        //   for (i=0; i < editableElements.length; i++) {
-        //     // check if data key is on this page
-        //     if (editableElements[i].getAttribute("data-key-name") === childSnapshot.key) {
-        //       // fill display text with stored data
-        //       editableElements[i].innerHTML = childSnapshot.text.val();
-        //       // assign link value to variable, even if there is none
-        //       var link = childSnapshot.link.val();
-        //       // check if there is a link and assign it to the element href if so
-        //       if (link !== ""){
-        //         editableElements[i].setAttribute("href", link);
-        //       }
-        //     }
-        //   }
-        // });
     } else {
       alert("Edge-CMS requires a valid domain name. Loading original HTML Values.");
     }
