@@ -421,7 +421,7 @@ var edgeCMS = (function() {
     editContentDiv.appendChild(editLinkForm);
     editModalDiv.appendChild(editContentDiv);
     document.body.appendChild(editModalDiv);
-    editModalDiv.style.display = "block";
+    editModalDiv.style.display = "none";
   }
 
   function updateEditLink(newLinkDataKey,newLinkText,newLinkURL){
@@ -447,7 +447,7 @@ var edgeCMS = (function() {
 
   function showEditLinkModal(){
     var editableLink = $(this);
-    if (typeof editableLink.attr('href') !== "undefined") {
+    if (typeof editableLink.attr('href') !== "undefined" && editableLink.attr('contenteditable') === "true") {
       var linkEditModal = editModalDiv;
       // grab data from link and pass info to modal
       var oldLinkText = editableLink.text();
