@@ -386,13 +386,14 @@ var edgeCMS = (function() {
       var newLinkText = editLinkTextInput.value;
       var newLinkURL = editLinkURLInput.value
       var newLinkDataKey = editLinkDataKey.innerHTML;
-      console.log(newLinkDataKey);
-      console.log(newLinkText);
-      console.log(newLinkURL);
+      // change the html element's attributes
       updateEditLink(newLinkDataKey,newLinkText,newLinkURL);
+      // clear form values for next edit
       editLinkTextInput.value = "";
       editLinkURLInput.value = "";
       editLinkDataKey.innerHTML = "";
+      // close form
+      editModalDiv.style.display = "none";
 
       return false;
     };
