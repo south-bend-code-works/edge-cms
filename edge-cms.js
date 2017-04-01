@@ -203,6 +203,7 @@ var edgeCMS = (function() {
     watchAuthState();
     addLoginButton();
     addLogoutButton();
+    createLinkEditModal();
   }
 
   var loginForm;
@@ -328,6 +329,116 @@ var edgeCMS = (function() {
   //     return modalDivClose;
   //   }
   // }
+
+  // this modal and functions are for editing an edge-cms flagged element
+  // containing an href attribute
+  var editModalDiv;
+  function createLinkEditModal(){
+    // creating the div containers for edit modal
+    editModalDiv = document.createElement("div");
+    var editContentDiv = document.createElement("div");
+    var editCloseButton = document.createElement("span");
+    var editModalHeader = document.createElement("h3");
+    // create the form for editing edge cms links
+    var editLinkForm = document.createElement("form");
+    var editLinkTextLabel = document.createElement("label");
+    var editLinkTextInput = document.createElement("input");
+    var editLinkURLLabel = document.createElement("label");
+    var editLinkURLInput = document.createElement("input");
+    var submitBtn = document.createElement("button");
+    //this element does not display and is just for holding
+    // the data key of the clicked link
+    var editLinkDataKey = document.createElement("p")
+
+    //add classes, id's, etc to form fields
+    editLinkForm.style.marginTop = "20px";
+
+    editLinkTextInput.setAttribute("type", "text");
+    editLinkTextInput.setAttribute("name", "editLinkText");
+    editLinkTextInput.setAttribute("class", "edge-input");
+    editLinkTextInput.setAttribute("id", "editLinkText")
+    editLinkURLInput.setAttribute("type", "text");
+    editLinkURLInput.setAttribute("name", "editLinkURL");
+    editLinkURLInput.setAttribute("class", "edge-input");
+    editLinkURLInput.setAttribute("id", "editLinkURL");
+    submitBtn.setAttribute("type", "submit");
+    submitBtn.innerHTML = "Confirm";
+    editLinkTextLabel.setAttribute("for", "editLinkText");
+    editLinkTextLabel.innerHTML = "Link Text";
+    editLinkURLLabel.setAttribute("for", "editLinkURL");
+    editLinkURLLabel.innerHTML = "Link URL";
+    editLinkDataKey.setAttribute("id","editLinkDataKey");
+    editLinkDataKey.style.display = "none";
+
+    //place all form pieces within form
+    editLinkForm.appendChild(editLinkTextLabel);
+    editLinkForm.appendChild(editLinkTextInput);
+    editLinkForm.appendChild(editLinkURLLabel);
+    editLinkForm.appendChild(editLinkURLInput);
+    editLinkForm.appendChild(editLinkDataKey);
+    editLinkForm.appendChild(submitBtn);
+
+    //on submit, change the text/url attributes
+    //of the given element
+    //Note:  changes aren't saved until save button
+    //on the page is clicked
+    editLinkForm.onsubmit = function() {
+      var newLinkText = editLinkTextInput.value;
+      var newLinkURL = editLinkURLInput.value
+      var newLinkDataKey = editLinkDataKey.innerHTML;
+      console.log(newLinkDataKey);
+      console.log(newLinkText);
+      console.log(newLinkURL);
+      editLinkTextInput.value = "";
+      editLinkURLInput.value = "";
+      editLinkDataKey.innerHTML = "";
+
+      return false;
+    };
+
+    // add classes/content to general form
+    editModalDiv.setAttribute("class", "modal");
+    editContentDiv.setAttribute("class", "modal-content");
+    editCloseButton.innerHTML = "x";
+    editModalHeader.innerHTML = "Edit this link";
+
+    editCloseButton.addEventListener("click", function() {
+      editModalDiv.style.display = "none";
+    });
+
+    //close modal if clicked outside
+    window.onclick = function(event) {
+      if (event.target == editModalDiv) {
+        editModalDiv.style.display = "none";
+      }
+    }
+
+    //add form to page
+    editContentDiv.appendChild(editCloseButton);
+    editContentDiv.appendChild(editModalHeader);
+    editContentDiv.appendChild(editLinkForm);
+    editModalDiv.appendChild(editContentDiv);
+    document.body.appendChild(editModalDiv);
+    editModalDiv.style.display = "block";
+  }
+
+
+  function showEditLinkModal(){
+    var editableLink = $(this);
+    if (typeof editableLink.attr('href') !== "undefined") {
+      var linkEditModal = editModalDiv;
+      // grab data from link and pass info to modal
+      var oldLinkText = editableLink.text();
+      var oldLinkURL = editableLink.attr('href');
+      var oldLinkDataKey = editableLink.attr('data-key-name');
+      $('#editLinkText').attr('placeholder', oldLinkText);
+      $('#editLinkURL').attr('placeholder', oldLinkURL);
+      $('#editLinkDataKey').text(oldLinkDataKey);
+      linkEditModal.style.display = "block";
+    }
+  }
+
+  $(".edge-cms").on('click', showEditLinkModal);
 
   //window.onload = function () {
   edgeCMS.begin= function () {
