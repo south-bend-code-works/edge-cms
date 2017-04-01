@@ -389,6 +389,7 @@ var edgeCMS = (function() {
       console.log(newLinkDataKey);
       console.log(newLinkText);
       console.log(newLinkURL);
+      updateEditLink(newLinkDataKey,newLinkText,newLinkURL);
       editLinkTextInput.value = "";
       editLinkURLInput.value = "";
       editLinkDataKey.innerHTML = "";
@@ -420,6 +421,26 @@ var edgeCMS = (function() {
     editModalDiv.appendChild(editContentDiv);
     document.body.appendChild(editModalDiv);
     editModalDiv.style.display = "block";
+  }
+
+  function updateEditLink(newLinkDataKey,newLinkText,newLinkURL){
+    // grab edge-cms flagged elements to look through
+    var editableElements = document.getElementsByClassName("edge-cms");
+    // search through elements to find the matching data key
+    for (i in editableElements){
+      if (editableElements[i].getAttribute("data-key-name") === newLinkDataKey){
+        var editThisLink = editableElements[i];
+        // make sure new text and url have values before assigning them
+        if (newLinkText !== ""){
+          editThisLink.innerHTML = newLinkText;
+        }
+        if (newLinkURL !== ""){
+          editThisLink.setAttribute("href", newLinkURL);
+        }
+        // break out of function once the proper data key is found
+        return;
+      }
+    }
   }
 
 
