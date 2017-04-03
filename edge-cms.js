@@ -32,7 +32,7 @@ var edgeCMS = (function() {
               // assign link value to variable, even if there is no link
               // then check to see if it is undefined before assigning to html
               var link = edgeValues[j].link;
-              if (link !== ""){
+              if (link !== undefined){
                 editableElements[i].setAttribute("href", link);
               }
             }
