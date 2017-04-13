@@ -185,8 +185,9 @@ var edgeCMS = (function() {
       console.log("Auth state changed");
       if (user) {
         console.log("User logged in");
-        makeEditable();
-        addSaveButton();
+        addEditButton();
+        // makeEditable();
+        // addSaveButton();
         document.getElementsByClassName("modal")[0].style.display = "none";
       } else {
         // No user is signed in.
