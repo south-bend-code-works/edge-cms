@@ -174,6 +174,7 @@ var edgeCMS = (function() {
     // signs out without any 'are you sure' message
     // this should only be temporary
     firebase.auth().signOut();
+    location.reload();
     // taking the confirmation window out for now
     // var logoutModal = createLogoutModal();
     // document.body.appendChild(logoutModal);
@@ -251,6 +252,8 @@ var edgeCMS = (function() {
       });
 
       return false;
+      location.reload();
+
     };
 
     return loginForm;
