@@ -227,6 +227,7 @@ var edgeCMS = (function() {
     passwordInput.setAttribute("name", "password");
     passwordInput.setAttribute("class", "edge-input");
     submitBtn.setAttribute("type", "submit");
+    submitBtn.setAttribute("id", "logInConfirmBtn")
     emailLabel.setAttribute("for", "email");
     passwordLabel.setAttribute("for", "password");
 
