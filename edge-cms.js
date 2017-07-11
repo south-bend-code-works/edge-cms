@@ -3,11 +3,12 @@ var edgeCMS = (function() {
 
   function prepareFirebase() {
     var config = {
-      apiKey: "AIzaSyBuWvVLmh4NGzfzsGBKIqmRsR9BtVJF1zE",
-      authDomain: "edge-cms.firebaseapp.com",
-      databaseURL: "https://edge-cms.firebaseio.com",
-      storageBucket: "edge-cms.appspot.com",
-      messagingSenderId: "1082973155115"
+      apiKey: "AIzaSyDwWt7XfOeWPIQmRg6Z-M21ErJixCEWRWg",
+      authDomain: "edge-cms-sandbox.firebaseapp.com",
+      databaseURL: "https://edge-cms-sandbox.firebaseio.com",
+      projectId: "edge-cms-sandbox",
+      storageBucket: "edge-cms-sandbox.appspot.com",
+      messagingSenderId: "115715838641"
     };
     firebase.initializeApp(config);
   }
