@@ -483,9 +483,13 @@ var edgeCMS = (function() {
         edgeCMS.config.version = config.version
       }
     }
-    $.getScript("https://www.gstatic.com/firebasejs/"+ edgeCMS.config.version +"/firebase.js")
-      .done(firebaseReady)
-      .fail(console.log.bind(console));
+    if(firebase) {
+      firebaseReady()
+    } else {
+      $.getScript("https://www.gstatic.com/firebasejs/"+ edgeCMS.config.version +"/firebase.js")
+        .done(firebaseReady)
+        .fail(console.log.bind(console));
+    }
     /*
     firebaseReady();
     */
