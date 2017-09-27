@@ -1,22 +1,25 @@
 var edgeCMS = (function() {
   var edgeCMS = {};
-
-  function prepareFirebase() {
-    var config = {
+  edgeCMS.config = {
+    firebase: {
       apiKey: "AIzaSyDwWt7XfOeWPIQmRg6Z-M21ErJixCEWRWg",
       authDomain: "edge-cms-sandbox.firebaseapp.com",
       databaseURL: "https://edge-cms-sandbox.firebaseio.com",
       projectId: "edge-cms-sandbox",
       storageBucket: "edge-cms-sandbox.appspot.com",
       messagingSenderId: "115715838641"
-    };
-    firebase.initializeApp(config);
+    },
+    namespace: document.domain,
+    version: '3.4.1'
+  };
+
+  function prepareFirebase() {
+    edgeCMS.app = firebase.initializeApp(edgeCMS.config.firebase,'__edgeCMS');
   }
 
   function watchForUpdates() {
-    var domain = document.domain.replace(/\./g, "~");
-    if (domain != "") {
-      var ref = firebase.database().ref().child(domain);
+    if (edgeCMS.config.namespace != "") {
+      var ref = edgeCMS.app.database().ref().child(edgeCMS.config.namespace);
       var editableElements = document.getElementsByClassName("edge-cms");
 
       ref.once('value').then(function(snapshot) {
@@ -104,8 +107,7 @@ var edgeCMS = (function() {
   // saving info to firebase when click 'save' button,
   // make uneditable, hide save button and display edit button
   function saveClicked() {
-    var domain = document.domain.replace(/\./g, "~");
-    var ref = firebase.database().ref().child(domain);
+    var ref = edgeCMS.app.database().ref().child(edgeCMS.config.namespace);
     var editableElements = document.getElementsByClassName("edge-cms");
     for (i=0; i < editableElements.length; i++) {
       var keyName = editableElements[i].getAttribute("data-key-name");
@@ -174,7 +176,7 @@ var edgeCMS = (function() {
   function logoutClicked() {
     // signs out without any 'are you sure' message
     // this should only be temporary
-    firebase.auth().signOut();
+    edgeCMS.app.auth().signOut();
     location.reload();
     // taking the confirmation window out for now
     // var logoutModal = createLogoutModal();
@@ -183,7 +185,7 @@ var edgeCMS = (function() {
   }
 
   function watchAuthState() {
-    firebase.auth().onAuthStateChanged(function(user) {
+    edgeCMS.app.auth().onAuthStateChanged(function(user) {
       console.log("Auth state changed");
       if (user) {
         console.log("User logged in");
@@ -247,7 +249,7 @@ var edgeCMS = (function() {
       var password = passwordInput.value;
       console.log(email);
       console.log(password);
-      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      edgeCMS.app.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorMessage);
@@ -319,7 +321,7 @@ var edgeCMS = (function() {
   //     closeButtonClose.innerHTML = "x";
   //     modalHeaderClose.innerHTML = "Are you sure you want to log out?";
   //     confirmCloseBtn.addEventListener("click", function() {
-  //       firebase.auth().signOut();
+  //       edgeCMS.app.auth().signOut();
   //     });
   //
   //     closeButtonClose.addEventListener("click", function() {
@@ -469,8 +471,19 @@ var edgeCMS = (function() {
   $(".edge-cms").on('click', showEditLinkModal);
 
   //window.onload = function () {
-  edgeCMS.begin= function () {
-    $.getScript("https://www.gstatic.com/firebasejs/3.4.1/firebase.js")
+  edgeCMS.begin= function (config) {
+    if(config) {
+      if(config.firebase) {
+        edgeCMS.config.firebase = config.firebase
+      }
+      if(config.namespace) {
+        edgeCMS.config.namespace = config.namespace
+      }
+      if(config.version) {
+        edgeCMS.config.version = config.version
+      }
+    }
+    $.getScript("https://www.gstatic.com/firebasejs/"+ edgeCMS.config.version +"/firebase.js")
       .done(firebaseReady)
       .fail(console.log.bind(console));
     /*
