@@ -483,7 +483,7 @@ var edgeCMS = (function() {
         edgeCMS.config.version = config.version
       }
     }
-    if(firebase) {
+    if(window.firebase) {
       firebaseReady()
     } else {
       $.getScript("https://www.gstatic.com/firebasejs/"+ edgeCMS.config.version +"/firebase.js")

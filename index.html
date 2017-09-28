@@ -71,7 +71,19 @@
 
   <script src="./edge-cms.js"></script>
   <script>
-    $(document).ready(edgeCMS.begin);
+    $(document).ready(function(){
+      edgeCMS.begin({
+        namespace: 'bryan-testing',
+        firebase: {
+    apiKey: "AIzaSyDDeKKBKDbMMg2wY3mIeH8p13VhfeQOJys",
+    authDomain: "my-vue-85902.firebaseapp.com",
+    databaseURL: "https://my-vue-85902.firebaseio.com",
+    projectId: "my-vue-85902",
+    storageBucket: "my-vue-85902.appspot.com",
+    messagingSenderId: "814513327177"
+  }
+      })
+    });
   </script>
 </body>
 
