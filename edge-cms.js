@@ -9,7 +9,7 @@ var edgeCMS = (function() {
       storageBucket: "edge-cms-sandbox.appspot.com",
       messagingSenderId: "115715838641"
     },
-    namespace: document.domain,
+    namespace: document.domain.replace(/\./g, "~"),
     version: '3.4.1'
   };
 
