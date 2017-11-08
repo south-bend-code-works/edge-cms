@@ -48,12 +48,12 @@ var edgeCMS = (function() {
       var ref = edgeCMS.app.database().ref().child(edgeCMS.config.namespaceLists);
       var editableListElements = document.getElementsByClassName("edge-cms-list");
       ref.once('value').then(function(snapshot) {
-        var edgeValues = snapshot.val();
+        var edgeValues2 = snapshot.val();
 
         // for each editableElement
         for (i in editableListElements){
           // look through firebase
-          for (j in edgeValues){
+          for (j in edgeValues2){
             // for the corresponding entry)
             if (editableListElements[i].getAttribute("data-key-name") === j) {
 
@@ -61,14 +61,15 @@ var edgeCMS = (function() {
               var parent = editableListElements[i];
               var template = parent.querySelectorAll('.edge-cms-list-template')[0];
               
+              /*
               // for each list value in firebase, clone the template
-              for( y in edgeValues[j] ) {
+              for( y in edgeValues2[j] ) {
                 var newChild = template.cloneNode(true);
                 newChild.classList.remove('edge-cms-list-template')
 
                 // replace template values within the template
                 var templateFields = newChild.querySelectorAll('.edge-cms-list-item')
-                var templateValues = edgeValues[j][y]
+                var templateValues = edgeValues2[j][y]
                 for (var x = 0; x < templateFields.length; x++) {
                   console.log("templatefields -" + x)
                   for(z in templateValues){
@@ -80,6 +81,22 @@ var edgeCMS = (function() {
 
                 parent.appendChild( newChild )
               }
+              */
+              
+              edgeValues2[j].forEach(function( listItem ) {
+
+                var newChild = template.cloneNode(true);
+                newChild.classList.remove('edge-cms-list-template')
+                
+                for ( var replaceField in listItem ) {
+                  var value = listItem[replaceField];
+                  var tag = '#{' + replaceField + '}';
+                  var newHTML = newChild.innerHTML.replace( tag, value );
+                  newChild.innerHTML = newHTML;
+                }
+                
+                parent.appendChild( newChild );
+              });
 
 
 
