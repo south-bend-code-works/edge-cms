@@ -29,7 +29,7 @@ var edgeCMS = (function() {
         for (i in editableElements){
           // look through firebase
           for (j in edgeValues){
-            // for the corresponding entry
+            // for the corresponding entry)
             if (editableElements[i].getAttribute("data-key-name") === j) {
               //fill display text with stored data-key-name
               editableElements[i].innerHTML = edgeValues[j].text;
@@ -39,6 +39,51 @@ var edgeCMS = (function() {
               if (link !== undefined){
                 editableElements[i].setAttribute("href", link);
               }
+            }
+          }
+        }
+      });
+
+      console.log("updating lists at " + edgeCMS.config.namespaceLists)
+      var ref = edgeCMS.app.database().ref().child(edgeCMS.config.namespaceLists);
+      var editableListElements = document.getElementsByClassName("edge-cms-list");
+      ref.once('value').then(function(snapshot) {
+        var edgeValues = snapshot.val();
+
+        // for each editableElement
+        for (i in editableListElements){
+          // look through firebase
+          for (j in edgeValues){
+            // for the corresponding entry)
+            if (editableListElements[i].getAttribute("data-key-name") === j) {
+
+              // find template
+              var parent = editableListElements[i];
+              var template = parent.querySelectorAll('.edge-cms-list-template')[0];
+              
+              // for each list value in firebase, clone the template
+              for( y in edgeValues[j] ) {
+                var newChild = template.cloneNode(true);
+                newChild.classList.remove('edge-cms-list-template')
+
+                // replace template values within the template
+                var templateFields = newChild.querySelectorAll('.edge-cms-list-item')
+                var templateValues = edgeValues[j][y]
+                for (var x = 0; x < templateFields.length; x++) {
+                  console.log("templatefields -" + x)
+                  for(z in templateValues){
+                    if (templateFields[x].getAttribute("data-key-name") === z) {
+                      templateFields[x].innerHTML = templateValues[z]
+                    }
+                  }
+                }                
+
+                parent.appendChild( newChild )
+              }
+
+
+
+              
             }
           }
         }
@@ -473,11 +518,17 @@ var edgeCMS = (function() {
   //window.onload = function () {
   edgeCMS.begin= function (config) {
     if(config) {
+      console.log(config)
       if(config.firebase) {
         edgeCMS.config.firebase = config.firebase
       }
       if(config.namespace) {
+        console.log('break1')
         edgeCMS.config.namespace = config.namespace
+      }
+      if(config.namespaceLists) {
+        console.log('break2')
+        edgeCMS.config.namespaceLists = config.namespaceLists
       }
       if(config.version) {
         edgeCMS.config.version = config.version

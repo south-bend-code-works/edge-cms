@@ -92,3 +92,8 @@ such as buttons*/
   border-radius: 2px !important;
   background-color: rgba(111, 163, 242, .3) !important;
 }
+
+
+.edge-cms-list-template{
+  display:none;
+}
