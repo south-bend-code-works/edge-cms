@@ -60,34 +60,17 @@ var edgeCMS = (function() {
               // find template
               var parent = editableListElements[i];
               var template = parent.querySelectorAll('.edge-cms-list-template')[0];
-              
-              /*
-              // for each list value in firebase, clone the template
-              for( y in edgeValues2[j] ) {
-                var newChild = template.cloneNode(true);
-                newChild.classList.remove('edge-cms-list-template')
 
-                // replace template values within the template
-                var templateFields = newChild.querySelectorAll('.edge-cms-list-item')
-                var templateValues = edgeValues2[j][y]
-                for (var x = 0; x < templateFields.length; x++) {
-                  console.log("templatefields -" + x)
-                  for(z in templateValues){
-                    if (templateFields[x].getAttribute("data-key-name") === z) {
-                      templateFields[x].innerHTML = templateValues[z]
-                    }
-                  }
-                }                
-
-                parent.appendChild( newChild )
+              // remove all existing chilren except the template
+              while (parent.childNodes.length > 1) {
+                  parent.removeChild(parent.lastChild);
               }
-              */
               
               edgeValues2[j].forEach(function( listItem ) {
 
                 var newChild = template.cloneNode(true);
                 newChild.classList.remove('edge-cms-list-template')
-                
+
                 for ( var replaceField in listItem ) {
                   var value = listItem[replaceField];
                   var tag = '#{' + replaceField + '}';
@@ -97,14 +80,12 @@ var edgeCMS = (function() {
                 
                 parent.appendChild( newChild );
               });
-
-
-
-              
             }
           }
         }
       });
+      /* end list processing */
+
     } else {
       alert("Edge-CMS requires a valid domain name. Loading original HTML Values.");
     }
@@ -124,6 +105,9 @@ var edgeCMS = (function() {
     for (i=0; i < editableElements.length; i++) {
       editableElements[i].setAttribute("contenteditable", "true");
     }
+
+    //var editModal = listEditModalSingleton();
+    //editModal.style.display = "block";
   }
 
   // add/remove save button
@@ -362,6 +346,20 @@ var edgeCMS = (function() {
 
     return modalDiv;
   }
+
+  var listEditModal;
+  function listEditModalSingleton() {
+    if (listEditModal != undefined) {
+      return listEditModal;
+    } else {
+      listEditModal = document.createElement("div");
+      listEditModal.innerHTML = "this is the list edit modal"
+  
+      document.body.appendChild(listEditModal);
+      return listEditModal;
+    }
+  }
+  
 
   // create logout modal, just to confirm logging out
   //**************taking out for now
