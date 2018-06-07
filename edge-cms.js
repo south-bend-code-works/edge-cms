@@ -26,7 +26,7 @@ var edgeCMS = (function() {
         var edgeValues = snapshot.val();
 
         // for each editableElement
-        for (i in editableElements){
+        for (i=0; i < editableElements.length; i++){
           // look through firebase
           for (j in edgeValues){
             // for the corresponding entry
@@ -436,7 +436,7 @@ var edgeCMS = (function() {
     // grab edge-cms flagged elements to look through
     var editableElements = document.getElementsByClassName("edge-cms");
     // search through elements to find the matching data key
-    for (i in editableElements){
+    for (i=0; i < editableElements.length; i++){
       if (editableElements[i].getAttribute("data-key-name") === newLinkDataKey){
         var editThisLink = editableElements[i];
         // make sure new text and url have values before assigning them
